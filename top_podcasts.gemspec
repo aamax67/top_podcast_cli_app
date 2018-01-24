@@ -1,17 +1,17 @@
 
 lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "top/podcasts/cli/gem/version"
+require "top_podcasts/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "top-podcasts-cli-gem"
-  spec.version       = Top::Podcasts::Cli::Gem::VERSION
+  spec.name          = "top_podcasts"
+  spec.version       = TopPodcasts::VERSION
   spec.authors       = ["'Aaron Lieberman'"]
   spec.email         = ["'aaronmaxmusic@gmail.com'"]
 
-  spec.summary       = %q{TODO: Write a short summary, because RubyGems requires one.}
-  spec.description   = %q{TODO: Write a longer description or delete this line.}
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.summary       = %q{"This a list of the top 200 podcasts"}
+  spec.description   = %q{"Choose to learn about your favorite podcasts."}
+  spec.homepage      = "https://github.com/aamax67/top_podcast_cli_app.git"
   spec.license       = "MIT"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
