@@ -3,7 +3,11 @@ class TopPodcasts::Podcast
 
   def self.today
     # scrape toppodcast.com and return podcasts based on that data
+    self.scrape_podcasts
+  end
 
+  def self.scrape_podcasts
+    podcasts = []
     podcast_1 = self.new
     podcast_1.name = "This American Life"
     podcast_1.rank = "1"
@@ -14,6 +18,6 @@ class TopPodcasts::Podcast
     podcast_2.rank = "2"
     podcast_2.url = "http://toppodcast.com/podcast_feeds/the-moth/"
 
-    [podcast_1, podcast_2]
+    podcasts
   end
 end
