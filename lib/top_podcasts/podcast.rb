@@ -2,11 +2,7 @@ class TopPodcasts::Podcast
   attr_accessor :name, :rank, :url
 
   def self.today
-    puts "--------- Top 200 Podcasts ---------"
-    puts <<-DOC
-    1.  This American Life
-    2.  The Moth
-    DOC
+    # scrape toppodcast.com and return podcasts based on that data
 
     podcast_1 = self.new
     podcast_1.name = "This American Life"

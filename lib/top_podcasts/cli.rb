@@ -10,26 +10,22 @@ class TopPodcasts::CLI
   end
 
   def list_podcasts
-    puts "--------- Top 200 Podcasts ---------"
-    puts <<-DOC
-    1.  This American Life
-    2.  The Moth
-    DOC
-
-    @podcast = TopPodcasts::Podcast.today
+    @podcasts = TopPodcasts::Podcast.today
+    @podcasts.each.with_index(1) do |podcast, i|
+      puts "#{podcast.rank}.   #{podcast.name}"
+    end
   end
 
   def menu
-    puts "Enter the number of the podcast you would like more info on or type list to return to list. Or type exit to terminate."
     input = nil
     while input != "exit"
+      puts "Enter the number of the podcast you would like more info on or type list to return to list. Or type exit to terminate."
       input = gets.strip.downcase
-      case input
-      when "1"
-        puts "More info on podcast 1"
-      when "2"
-        puts "More info on podcast 2"
-      when "list"
+
+      if input.to_i > 0
+        the_podcast = @podcasts[input.to_i-1]
+        puts "#{podcast.rank}.   #{podcast.name}"
+      elsif input == "list"
         list_podcasts
       else
         puts "Not sure what you are trying to do. Please type list to see podcasts or exit to terminate."
