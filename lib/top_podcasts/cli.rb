@@ -4,8 +4,6 @@ class TopPodcasts::CLI
     puts "Welcome to the top 200 podcasts:"
     start
     puts ""
-    menu
-    goodbye
   end
 
   def start
@@ -36,7 +34,7 @@ class TopPodcasts::CLI
       end
     end
 
-    
+
   def print_podcast(podcast)
     puts ""
     puts "----------- #{podcast.rank} - #{podcast.name} -----------"
@@ -52,7 +50,7 @@ class TopPodcasts::CLI
     puts "---------- Podcasts #{from_number} - #{from_number+49} ----------"
     puts ""
     TopPodcasts::Podcast.all[from_number-1, 50].each.with_index(from_number) do |podcast, index|
-      puts "#{index}. #{podcast.title}"
+      puts "#{index}.   #{podcast.rank} - #{podcast.name}"
     end
   end
 end

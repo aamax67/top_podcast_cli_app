@@ -8,20 +8,18 @@ class TopPodcasts::Podcast
       @rank = rank
       @url = url
       @summary = summary
-      @@all << podcasts
+
     end
 
     def self.all
-      @@all ||= scrape_podcasts
+      @@all << self.scrape_podcast
     end
 
     def self.find(id)
       self.all[id-1]
     end
 
-  def self.scrape_podcasts
-    podcasts = []
-    podcasts << self
+  def self.scrape_podcast
 
     doc = Nokogiri::HTML(open("http://toppodcast.com/top-200-podcast/"))
 
@@ -32,5 +30,4 @@ class TopPodcasts::Podcast
     podcast.url = doc.search("a.view_show").first.attr("href")
     podcast
   end
-  binding.pry
 end
