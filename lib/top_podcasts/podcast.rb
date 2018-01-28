@@ -12,7 +12,7 @@ class TopPodcasts::Podcast
     end
 
     def self.all
-      @@all << self.scrape_podcast
+      @@all ||= podcast
     end
 
     def self.find(id)
@@ -22,11 +22,11 @@ class TopPodcasts::Podcast
   def self.scrape_podcast
 
     doc = Nokogiri::HTML(open("http://toppodcast.com/top-200-podcast/"))
-
+binding.pry
     podcast = self.new
-    podcast.name = doc.search(".podcastRow").first.css("h3").text.strip
-    podcast.rank = doc.search(".podcastRow").first.css(".numberImage").text.strip
-    podcast.summary = doc.search(".podcastRow").first.css("p").text.strip
+    podcast.name = doc.search(".podcastRow").css("h3").text.gsub(/\t/, '').strip
+    podcast.rank = doc.search(".podcastRow").css(".numberImage").text.gsub(/\t/, '').strip
+    podcast.summary = doc.search(".podcastRow").css("p").text.strip
     podcast.url = doc.search("a.view_show").first.attr("href")
     podcast
   end
