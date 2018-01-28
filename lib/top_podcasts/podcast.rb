@@ -1,23 +1,36 @@
 class TopPodcasts::Podcast
-  attr_accessor :name, :rank, :url
+  attr_accessor :name, :rank, :url, :summary
 
-  def self.today
-    # scrape toppodcast.com and return podcasts based on that data
-    self.scrape_podcasts
-  end
+    @@all = []
+
+    def initialize(name = nil, rank = nil, url = nil)
+      @name = name
+      @rank = rank
+      @url = url
+      @summary = summary
+      @@all << podcasts
+    end
+
+    def self.all
+      @@all ||= scrape_podcasts
+    end
+
+    def self.find(id)
+      self.all[id-1]
+    end
 
   def self.scrape_podcasts
     podcasts = []
-    podcast_1 = self.new
-    podcast_1.name = "This American Life"
-    podcast_1.rank = "1"
-    podcast_1.url = "http://toppodcast.com/podcast_feeds/this-american-life-this-american-life/"
+    podcasts << self
 
-    podcast_2 = self.new
-    podcast_2.name = "The Moth"
-    podcast_2.rank = "2"
-    podcast_2.url = "http://toppodcast.com/podcast_feeds/the-moth/"
+    doc = Nokogiri::HTML(open("http://toppodcast.com/top-200-podcast/"))
 
-    podcasts
+    podcast = self.new
+    podcast.name = doc.search(".podcastRow").first.css("h3").text.strip
+    podcast.rank = doc.search(".podcastRow").first.css(".numberImage").text.strip
+    podcast.summary = doc.search(".podcastRow").first.css("p").text.strip
+    podcast.url = doc.search("a.view_show").first.attr("href")
+    podcast
   end
+  binding.pry
 end
