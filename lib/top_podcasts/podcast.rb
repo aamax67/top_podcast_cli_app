@@ -1,37 +1,28 @@
 class TopPodcasts::Podcast
-  attr_accessor :name, :rank, :url, :summary
+  attr_accessor :name, :rank, :summary
 
     @@all = []
 
-    def self.today
-      self.scrape_podcasts
-    end
+    def self.new_from_index_page(p)
+    self.new(
+      p.css("h3").text.gsub(/\t/, '').strip,
+      p.css(".numberImage").text.gsub(/\t/, '').strip,
+      p.css("p").text.strip
+      )
+  end
 
-    def initialize(name = nil, rank = nil, url = nil)
-      @name = name
-      @rank = rank
-      @url = url
-      @summary = summary
-    end
+  def initialize(name = nil, rank = nil, summary = nil)
+    @name = name
+    @rank = rank
+    @summary = summary
+    @@all << self
+  end
 
-    def self.all
+  def self.all
+    @@all
+  end
 
-      podcasts << self.scrape_podcasts
-      @@all << podcasts
-    end
-
-    def self.find(id)
-      self.all[id-1]
-    end
-
-  def self.scrape_podcasts
-    podcasts = []
-    doc = Nokogiri::HTML(open("http://toppodcast.com/top-200-podcast/"))
-    podcast = self.new
-    podcast.name = doc.search(".podcastRow").css("h3").text.gsub(/\t/, '').strip
-    podcast.rank = doc.search(".podcastRow").css(".numberImage").text.gsub(/\t/, '').strip
-    podcast.summary = doc.search(".podcastRow").css("p").text.strip
-    podcast.url = doc.search("a.view_show").first.attr("href")
-    podcasts
+  def self.find(id)
+    self.all[id-1]
   end
 end
